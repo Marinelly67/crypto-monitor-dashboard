@@ -1,0 +1,25 @@
+.summary-card {
+  border: 1px solid #334155;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    border-color: #475569;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.performer-item {
+  border: 1px solid #334155;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    border-color: #475569;
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.rank {
+  min-width: 24px;
+  min-height: 24px;
+}

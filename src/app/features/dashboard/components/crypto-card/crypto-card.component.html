@@ -1,0 +1,97 @@
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- Nombre del Proyecto: Monitoreo de Criptomonedas --> 
+<!-- Descripción: Aplicación web para monitorear precios de criptomonedas en tiempo real. -->
+<!-- Desarrollador: Marinelly Rodriguez C.I.: 9826256 -->
+<!-- Unidad Curricular Programación III - Modulo 1 -->
+<!-- Sección Didactica 4 -->
+<!-- Sección 6A-6B -->  
+<!-- Fecha de Desarrollo: Febrero 2026 -->
+<!-- Nombre del archivo: crypto-card.component.html -->
+<!-- Página Principal de la Tarjeta de Criptomoneda -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<!-- Tarjeta de Criptomoneda con Información Detallada y Alertas -->
+<div 
+  class="crypto-card rounded-xl p-6 transition-all duration-300 hover:scale-[1.02]"
+  [class.alert-active]="hasAlert()"
+  [style.borderLeft]="'4px solid ' + asset.color"
+  [style.background]="'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)'"
+>
+  <div class="flex justify-between items-start mb-4">
+    <div>
+      <div class="flex items-center gap-3">
+        <div 
+          class="w-10 h-10 rounded-full flex items-center justify-center font-bold"
+          [style.backgroundColor]="asset.color + '20'"
+          [style.color]="asset.color"
+        >
+          {{ asset.symbol.charAt(0) }}
+        </div>
+        <div>
+          <h3 class="text-xl font-bold text-white">{{ asset.name }}</h3>
+          <p class="text-gray-400">{{ asset.symbol }}</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Sección de Precio Actual con Formateo y Destacado de Cambios -->
+    <div class="text-right">
+      <div 
+        class="text-2xl font-bold text-white mb-1"
+        [appHighlightChange]="asset.currentPrice"
+        changeType="price"
+      >
+        ${{ asset.currentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
+      </div>
+      <div class="flex items-center gap-2">
+        <span [class]="'text-sm font-semibold ' + getChangeColor()">
+          {{ asset.changePercent > 0 ? '+' : '' }}{{ asset.changePercent.toFixed(2) }}%
+        </span>
+        <span [class]="'text-sm ' + getChangeColor()">
+         ({{ asset.changeAmount > 0 ? '+' : '' }}${{ (asset.changeAmount > 0 ? asset.changeAmount : -asset.changeAmount).toFixed(2) }})
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección de Métricas Adicionales con Formateo de Números y Cálculos -->
+  <div class="grid grid-cols-2 gap-4 mt-6">
+    <div class="metric">
+      <p class="text-gray-400 text-sm">Capitalización de mercado</p>
+      <p class="text-white font-semibold">{{ formatNumber(asset.marketCap) }}</p>
+    </div>
+    
+    <div class="metric">
+      <p class="text-gray-400 text-sm">Volumen (24h)</p>
+      <p class="text-white font-semibold">{{ formatNumber(asset.volume24h) }}</p>
+    </div>
+    
+    <div class="metric">
+      <p class="text-gray-400 text-sm">Avg (10)</p>
+      <p class="text-white font-semibold">${{ movingAverage().toFixed(2) }}</p>
+    </div>
+    
+    <div class="metric">
+      <p class="text-gray-400 text-sm">Volatilidad</p>
+      <p class="text-white font-semibold">{{ volatility().toFixed(4) }}</p>
+    </div>
+  </div>
+
+  <!-- Sección de Actualización y Estado de Alertas con Indicadores Visuales -->
+  <div class="mt-6 pt-4 border-t border-gray-800">
+    <div class="flex justify-between items-center">
+      <div class="text-gray-400 text-sm">
+        Updated: {{ asset.lastUpdated | date:'HH:mm:ss' }}
+      </div>
+      
+      <div 
+        class="alert-indicator px-3 py-1 rounded-full text-xs font-semibold"
+        [class.bg-red-500]="hasAlert()"
+        [class.bg-green-500]="!hasAlert()"
+        [class.text-white]="true"
+      >
+        {{ hasAlert() ? 'ALERT ACTIVE / ALERTA ACTIVADA' : 'NO ALERTS / SIN ALERTA' }}
+      </div>
+    </div>
+  </div>
+</div>

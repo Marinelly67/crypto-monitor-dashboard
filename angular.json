@@ -40,15 +40,19 @@
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
+            "webWorkerTsConfig": "tsconfig.worker.json",
             "polyfills": [
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
+              "src/assets",
+              "src/favicon.ico",
               {
                 "glob": "**/*",
                 "input": "public"
+                
               }
             ],
             "styles": [
@@ -116,5 +120,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
